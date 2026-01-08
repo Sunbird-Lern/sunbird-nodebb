@@ -3,19 +3,17 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
+ENV NODE_ENV=$NODE_ENV
 
 COPY NodeBB/install/package.json /usr/src/app/package.json
 COPY NodeBB/ /usr/src/app
 RUN npm install --only=prod && \
     npm cache clean --force
 
-
-RUN npm install https://github.com/Sunbird-Lern/nodebb-plugin-sunbird-oidc.git#master
-RUN npm install https://github.com/Sunbird-Lern/nodebb-plugin-sunbird-api.git#release-4.6.0
-RUN npm install https://github.com/Sunbird-Lern/nodebb-plugin-sunbird-telemetry.git#master
-RUN npm install https://github.com/Sunbird-Lern/nodebb-plugin-azure-storage.git#main
-RUN npm install https://github.com/NodeBB/nodebb-plugin-write-api.git#master
+RUN npm install https://github.com/Sunbird-Lern/nodebb-plugin-sunbird-oidc.git#develop
+RUN npm install https://github.com/Sunbird-Lern/nodebb-plugin-sunbird-api.git#develop
+RUN npm install https://github.com/Sunbird-Lern/nodebb-plugin-sunbird-telemetry.git#develop
+RUN npm install https://github.com/Sunbird-Lern/nodebb-plugin-azure-storage.git#develop
 
 # Nodebb was not taking the latest version of mentions plugin, That's why we added install command here.
 RUN npm install https://github.com/julianlam/nodebb-plugin-mentions.git#master
@@ -40,4 +38,4 @@ EXPOSE 4567
 # ENV admin__password="nodebbAdminPassword00"
 ########################################################
 
-CMD node ./nodebb setup ;  node ./nodebb start
+CMD ["node", "./nodebb", "start"]
